@@ -1,0 +1,6 @@
+D:\minhua\workspace\MyContainer\MyContainer.Core\bin\Release\MyContainer.Core.exe.config
+D:\minhua\workspace\MyContainer\MyContainer.Core\bin\Release\MyContainer.Core.exe
+D:\minhua\workspace\MyContainer\MyContainer.Core\bin\Release\MyContainer.Core.pdb
+D:\minhua\workspace\MyContainer\MyContainer.Core\obj\Release\MyContainer.Core.csprojResolveAssemblyReference.cache
+D:\minhua\workspace\MyContainer\MyContainer.Core\obj\Release\MyContainer.Core.exe
+D:\minhua\workspace\MyContainer\MyContainer.Core\obj\Release\MyContainer.Core.pdb
