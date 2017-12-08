@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IContainer.cs" />
-    <Compile Include="MyContainer.cs" />
+    <Compile Include="Container.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceImplement\Audit.cs" />

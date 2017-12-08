@@ -12,9 +12,9 @@ namespace MyContainer.Core
     {
         static void Main(string[] args)
         {
-            MyContainer myContainer = MyContainer.GetInstance();
-            myContainer.Register<Audit, IAudit>();
-            IAudit audit = myContainer.Resolve<IAudit>();
+            Container container = Container.GetInstance();
+            container.Register<Audit, IAudit>();
+            IAudit audit = container.Resolve<IAudit>();
             if (audit != null)
             {
                 audit.Load();

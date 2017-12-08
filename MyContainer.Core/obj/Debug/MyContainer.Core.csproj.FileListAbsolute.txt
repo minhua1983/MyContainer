@@ -1,1 +1,5 @@
 D:\minhua\workspace\MyContainer\MyContainer.Core\bin\Debug\MyContainer.Core.exe.config
+D:\minhua\workspace\MyContainer\MyContainer.Core\bin\Debug\MyContainer.Core.exe
+D:\minhua\workspace\MyContainer\MyContainer.Core\bin\Debug\MyContainer.Core.pdb
+D:\minhua\workspace\MyContainer\MyContainer.Core\obj\Debug\MyContainer.Core.exe
+D:\minhua\workspace\MyContainer\MyContainer.Core\obj\Debug\MyContainer.Core.pdb

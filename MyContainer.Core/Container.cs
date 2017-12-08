@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 using System.Reflection;
 using System.Collections.Concurrent;
 
 namespace MyContainer.Core
 {
-    public class MyContainer : IContainer
+    public class Container : IContainer
     {
         /// <summary>
         /// 线程安全的同步字典
@@ -23,12 +22,12 @@ namespace MyContainer.Core
         /// <summary>
         /// 实例（用于双重检验锁，加volatile为了不被本地线程缓存，从而确认多个线程可以正确处理该变量）
         /// </summary>
-        static volatile MyContainer _myContainer;
+        static volatile Container _myContainer;
 
         /// <summary>
         /// 私有构造，以避免调用者主动构造对象
         /// </summary>
-        private MyContainer()
+        private Container()
         {
 
         }
@@ -37,7 +36,7 @@ namespace MyContainer.Core
         /// 获取实例
         /// </summary>
         /// <returns>实例</returns>
-        public static MyContainer GetInstance()
+        public static Container GetInstance()
         {
             if (_myContainer == null)
             {
@@ -45,7 +44,7 @@ namespace MyContainer.Core
                 {
                     if (_myContainer == null)
                     {
-                        _myContainer = new MyContainer();
+                        _myContainer = new Container();
                     }
                 }
             }
@@ -62,6 +61,19 @@ namespace MyContainer.Core
             _dictionary.TryAdd(typeof(TInterface), typeof(TClass));
         }
 
+        /// <summary>
+        /// 将TClass类注入到容器
+        /// </summary>
+        /// <typeparam name="TClass">实现类</typeparam>
+        public void Register<TClass>() where TClass : class
+        {
+            _dictionary.TryAdd(typeof(TClass), typeof(TClass));
+        }
+
+        public void Register(Type type)
+        {
+            _dictionary.TryAdd(type, type);
+        }
         /*
         /// <summary>
         /// 以有参数构造获取T接口类型的实例（构造函数不准使用默认参数和命名参数）
@@ -122,6 +134,35 @@ namespace MyContainer.Core
             catch
             {
                 return default(T);
+            }
+        }
+
+        public dynamic Resolve(Type type)
+        {
+            try
+            {
+                Type classType;
+                //尝试读取T接口类型对应的实现类型
+                _dictionary.TryGetValue(type, out classType);
+                //获取第一个构造函数
+                ConstructorInfo constructor = classType.GetConstructors().FirstOrDefault();
+
+                //获取构造函数参数
+                //ParameterInfo[] parameters = constructor.GetParameters();
+                /*
+                List<ParameterInfo> parameterInfoList = constructor.GetParameters().ToList();
+                object[] parameters = new object[parameterInfoList.Count];
+                for (int i = 0; i < parameterInfoList.Count; i++)
+                {
+                    parameters[i] = parameterInfoList[i];
+                }
+                //*/
+                object o = constructor.Invoke(null);
+                return (dynamic)o;
+            }
+            catch
+            {
+                return default(dynamic);
             }
         }
     }
