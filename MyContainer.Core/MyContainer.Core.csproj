@@ -43,8 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContainerBuilder.cs" />
     <Compile Include="IContainer.cs" />
     <Compile Include="Container.cs" />
+    <Compile Include="IContainerBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceImplement\Audit.cs" />

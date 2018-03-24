@@ -17,7 +17,7 @@ namespace MyContainer.Core
         /// <summary>
         /// 锁的帮助实例
         /// </summary>
-        static object _luckHelper = new object();
+        static object _lockHelper = new object();
 
         /// <summary>
         /// 实例（用于双重检验锁，加volatile为了不被本地线程缓存，从而确认多个线程可以正确处理该变量）
@@ -36,44 +36,22 @@ namespace MyContainer.Core
         /// 获取实例
         /// </summary>
         /// <returns>实例</returns>
-        public static Container GetInstance()
+        public static Container GetInstance(ConcurrentDictionary<Type, Type> _dictionary)
         {
             if (_myContainer == null)
             {
-                lock (_luckHelper)
+                lock (_lockHelper)
                 {
                     if (_myContainer == null)
                     {
                         _myContainer = new Container();
+                        _myContainer._dictionary = _dictionary;
                     }
                 }
             }
             return _myContainer;
         }
 
-        /// <summary>
-        /// 将TClass类以TInterface接口形式注入到容器
-        /// </summary>
-        /// <typeparam name="TClass">实现类</typeparam>
-        /// <typeparam name="TInterface">实现接口</typeparam>
-        public void Register<TClass, TInterface>() where TClass : class, TInterface
-        {
-            _dictionary.TryAdd(typeof(TInterface), typeof(TClass));
-        }
-
-        /// <summary>
-        /// 将TClass类注入到容器
-        /// </summary>
-        /// <typeparam name="TClass">实现类</typeparam>
-        public void Register<TClass>() where TClass : class
-        {
-            _dictionary.TryAdd(typeof(TClass), typeof(TClass));
-        }
-
-        public void Register(Type type)
-        {
-            _dictionary.TryAdd(type, type);
-        }
         /*
         /// <summary>
         /// 以有参数构造获取T接口类型的实例（构造函数不准使用默认参数和命名参数）

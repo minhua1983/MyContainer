@@ -12,8 +12,13 @@ namespace MyContainer.Core
     {
         static void Main(string[] args)
         {
-            Container container = Container.GetInstance();
-            container.Register<Audit, IAudit>();
+            //生成容器创建器
+            ContainerBuilder containerBuilder = new ContainerBuilder();
+            //注册所需类型
+            containerBuilder.Register<Audit, IAudit>();
+            //创建容器
+            IContainer container = containerBuilder.Build<Container>();
+            //调用
             IAudit audit = container.Resolve<IAudit>();
             if (audit != null)
             {
