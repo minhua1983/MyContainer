@@ -15,15 +15,25 @@ namespace MyContainer.Core
             //生成容器创建器
             ContainerBuilder containerBuilder = new ContainerBuilder();
             //注册所需类型
-            containerBuilder.Register<Audit, IAudit>();
+            containerBuilder.Register<Audit, IAudit>().AsPerLifetimeScope<IAudit>();
             //创建容器
             IContainer container = containerBuilder.Build<Container>();
             //调用
-            IAudit audit = container.Resolve<IAudit>();
-            if (audit != null)
+            using (ILifetimeScope lifetimeScope = container.BeginLifetimeScope())
             {
-                audit.Load();
-                audit.Save();
+                IAudit audit = lifetimeScope.Resolve<IAudit>(lifetimeScope);
+                if (audit != null)
+                {
+                    audit.Load();
+                    audit.Save();
+                }
+
+                IAudit audit1 = lifetimeScope.Resolve<IAudit>(lifetimeScope);
+                if (audit1 != null)
+                {
+                    audit1.Load();
+                    audit1.Save();
+                }
             }
 
             Console.ReadLine();

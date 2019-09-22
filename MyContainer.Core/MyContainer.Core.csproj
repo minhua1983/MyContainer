@@ -47,6 +47,10 @@
     <Compile Include="IContainer.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="IContainerBuilder.cs" />
+    <Compile Include="ILifetimeScope.cs" />
+    <Compile Include="LifetimeScope.cs" />
+    <Compile Include="LifetimeScopeItem.cs" />
+    <Compile Include="LifetimeScopeType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceImplement\Audit.cs" />

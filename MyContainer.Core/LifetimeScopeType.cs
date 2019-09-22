@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyContainer.Core.ServiceInterface
+namespace MyContainer.Core
 {
-    public interface IAudit : IDisposable
+    public enum LifetimeScopeType
     {
-        void Load();
-        void Save();
+        PerDependency,
+        Single,
+        PerLifetimeScope
     }
 }
