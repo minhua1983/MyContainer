@@ -1,8 +1,23 @@
 # 自定义容器
 这是一个简单的自定义容器demo，一般平时使用autofac来做ioc，慢慢有了容器的概念，想自己也写一个试试，所以有了这个demo。
 
-## 不足之处
-虽然有了最简单的demo，但是不像其他第三方容器可以按实际调用，按请求，按整个应用，来生成不同生命周期的实例。
-* 按实际调用，即每当有Resolve方法调用时，就构造一个实例，本项目目前就是按这种最简单的逻辑处理的。
-* 按当前请求，即某个用户的一次请求中，多次对同一个类型做Resolve方法，就生成一个实例。
-* 按整个应用，即整个应用中，对某个类型做Resolve方法，就生成一个实例，可以理解为单例，大家共享这一个实例。
+## 实现了3种简单生命周期级别的类型注册
+* IContainerBuilder.Register<T>().AsInstancePerDependency<T>()，可以按每次都单独以T类型实例化
+* IContainerBuilder.Register<T>().AsSingleInstance<T>()，可以按整个Container实例中T类型只有一个实例，如果用于web项目中，请保证Container实例的唯一性。
+* IContainerBuilder.Register<T>().AsPerLifetimeScope<T>()，每个ILifetimeScope代码段中T类型只有一个实例
+
+## 调用方式以LifetimeScope级别注册为例子
+<pre>
+//生成容器创建器
+ContainerBuilder containerBuilder = new ContainerBuilder();
+//注册所需类型
+containerBuilder.Register&lt;Audit, IAudit&gt;().AsPerLifetimeScope&lt;IAudit&gt;();
+//创建容器
+IContainer container = containerBuilder.Build&lt;Container&gt;();
+//调用
+using(ILifetimeScope scope = container.BeginLifetimeScope())
+{
+    IAudit audit = scope.Resove&lt;IAudit&gt;();
+    //用audit实例处理
+}
+</pre>
